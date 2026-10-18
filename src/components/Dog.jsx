@@ -2,8 +2,15 @@ import React, { useEffect } from 'react'
 import * as THREE from "three"
 import { Canvas, useThree } from '@react-three/fiber'
 import { OrbitControls, useGLTF, useTexture, useAnimations } from '@react-three/drei'
+import gsap from "gsap"
+import { useGSAP } from '@gsap/react'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 const Dog = () => {
+
+  gsap.registerPlugin(useGSAP())
+  gsap.registerPlugin(ScrollTrigger)
+
 
   const model = useGLTF("/models/dog.drc.glb")
 
@@ -20,26 +27,15 @@ const Dog = () => {
     actions["Take 001"].play()
   }, [actions])
 
-  //   const textures = useTexture({
-  //   normalMap: "/models/dog_normals.jpg",
-  //   sampleMatCap: "/matcap/mat-2.png"
-  // })
-
-  const [normalMap, sampleMatCap] = (useTexture([
-    "/models/dog_normals.jpg", 
-    "/matcap/mat-2.png", 
-    "/models/branches_diffuse.jpeg", 
-    "/models/branches_normals.jpeg"]))
-
-    
+  const [normalMap, sampleMatCap] = (useTexture(["/models/dog_normals.jpg","/matcap/mat-2.png","/models/branches_diffuse.jpeg","/models/branches_normals.jpeg"]))
     .map(texture => {
       texture.flipY = false
       texture.colorSpace = THREE.SRGBColorSpace
       return texture
     })
 
-  const [ branchMap, branchNormalMap ] = (useTexture([ "/models/branches_diffuse.jpeg", 
-    "/models/branches_normals.jpeg" ]))
+  const [branchMap, branchNormalMap] = (useTexture(["/models/branches_diffuse.jpeg",
+    "/models/branches_normals.jpeg"]))
 
     .map(texture => {
       texture.colorSpace = THREE.SRGBColorSpace
@@ -65,6 +61,21 @@ const Dog = () => {
       child.material = branchMaterial
     }
   })
+
+  useGSAP (() => {
+
+const tl = gsap.timeline({
+  ScrollTrigger: {
+    trigger: "#section-1",
+    endTrigger: "#section-3",
+    start: "top top",
+    end: "bottom bottom",
+    // scrub: true,
+    markers: true,
+  }
+})
+
+  }, [])
 
   return (
     <>
