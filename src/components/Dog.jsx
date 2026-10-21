@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import * as THREE from "three"
 import { Canvas, useThree } from '@react-three/fiber'
 import { OrbitControls, useGLTF, useTexture, useAnimations } from '@react-three/drei'
@@ -27,7 +27,7 @@ const Dog = () => {
     actions["Take 001"].play()
   }, [actions])
 
-  const [normalMap, sampleMatCap] = (useTexture(["/models/dog_normals.jpg","/matcap/mat-2.png","/models/branches_diffuse.jpeg","/models/branches_normals.jpeg"]))
+  const [normalMap, sampleMatCap] = (useTexture(["/models/dog_normals.jpg", "/matcap/mat-2.png", "/models/branches_diffuse.jpeg", "/models/branches_normals.jpeg"]))
     .map(texture => {
       texture.flipY = false
       texture.colorSpace = THREE.SRGBColorSpace
@@ -62,18 +62,40 @@ const Dog = () => {
     }
   })
 
-  useGSAP (() => {
+  const dogModel = useRef(model)
 
-const tl = gsap.timeline({
-  ScrollTrigger: {
-    trigger: "#section-1",
-    endTrigger: "#section-3",
-    start: "top top",
-    end: "bottom bottom",
-    // scrub: true,
-    markers: true,
-  }
-})
+  useGSAP(() => {
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#section-1",
+        endTrigger: "#section-3",
+        start: "top top",
+        end: "bottom bottom",
+        markers: true,
+        scrub: true
+      }
+    })
+
+    tl
+      .to(dogModel.current.scene.position, {
+        z: "-=0.75",
+        y: "+=0.1"
+      })
+
+      .to(dogModel.current.scene.rotation, {
+        x: `+=${Math.PI / 15}`
+      })
+
+      .to(dogModel.current.scene.rotation, {
+        y: `-=${Math.PI}`
+      }, "third")
+
+      .to(dogModel.current.scene.position, {
+        x: "-=0.4",
+        z: "+=0.6",
+        y: "-=0.05"
+      }, "third")
 
   }, [])
 
