@@ -68,6 +68,9 @@ function App() {
         </div>
     </div>
 
+    <div className="first-line"></div>
+    <div className="second-line"></div>
+
    </section>
 
    <section id = "section-2"></section>

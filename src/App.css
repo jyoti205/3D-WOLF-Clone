@@ -19,7 +19,6 @@ main {
 
 section {
   min-height: 100vh;
-  border: 2px solid white;
   position: relative;
   z-index: 2;
 }
@@ -27,6 +26,7 @@ section {
 #section-1 {
 
   --gap: 5rem;
+  position: relative;
 
   nav {
     display: flex;
@@ -87,5 +87,24 @@ section {
       }
     }
   }
+
+  .first-line {
+    width: 30rem;
+    background-color: rgba(255, 0, 0, 0.286);
+    height: 1px;
+    position: absolute;
+    transform: rotate(45deg) translate(0,-20rem);
+  }
+
+  .second-line {
+    width: 10rem;
+    background-color: rgba(255, 0, 0, 0.286);
+    height: 1px;
+    position: absolute;
+    transform: rotate(135deg);
+    top: 20%;
+    right: 21%;
+  }
+
 }
 
